@@ -1,9 +1,5 @@
 package com.grupo4.taller2.models.dtos;
 
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 
 @Data
