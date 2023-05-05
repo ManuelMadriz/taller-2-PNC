@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.grupo4.taller2.models.dtos.ChangePasswordDTO;
 import com.grupo4.taller2.models.dtos.LoginDTO;
+import com.grupo4.taller2.models.dtos.LoginResponseDTO;
 import com.grupo4.taller2.models.dtos.RegisterDTO;
 import com.grupo4.taller2.models.entities.User;
 import com.grupo4.taller2.services.UserService;
@@ -27,20 +28,26 @@ public class UserServiceImp implements UserService{
 	
 	static {
 		try {
-			
-			users.add(new User("Manuel Madriz", "manuel@gmail.com", "manu", "admin", date.parse("04/05/2023"), true, "ola12345678"));
-			users.add(new User("Mario Moisa", "moisa@gmail.com", "moisacan", "user", date.parse("03/05/2023"), true, "ola12345678"));
-			users.add(new User("Wilmer Hernandez", "wil@gmail.com", "wilhs", "user", date.parse("03/05/2023"), true, "ola12345678"));
-			users.add(new User("Rodrigo Molina", "rodri@gmail.com", "rodrick", "admin", date.parse("04/05/2023"), true, "ola12345678"));
+			users.add(new User("manu", "manuel@gmail.com", "Manuel Madriz", "admin", date.parse("04/05/2023"), true, "ola12345678encriptado"));
+			users.add(new User("moisacan", "moisa@gmail.com", "Mario Moisa", "user", date.parse("03/05/2023"), true, "ola12345678encriptado"));
+			users.add(new User("wilhs", "wil@gmail.com", "Wilmer Hernandez", "user", date.parse("03/05/2023"), true, "ola12345678encriptado"));
+			users.add(new User("rodrick", "rodri@gmail.com", "Rodrigo Molina", "admin", date.parse("04/05/2023"), true, "ola12345678encriptado"));
 		}catch(ParseException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@Override
-	public void login(LoginDTO log) {
-		// TODO Auto-generated method stub
+	public LoginResponseDTO login(LoginDTO login) {
+		User user = findOneById(login.getIdentifier());
 		
+		if(user.getPassword().equals(login.getPassword()))
+			return new LoginResponseDTO(
+					user.getUsername(),
+					user.getEmail(),
+					user.getRol());
+		
+		return new LoginResponseDTO();
 	}
 
 	@Override
@@ -84,8 +91,10 @@ public class UserServiceImp implements UserService{
 	@Override
 	public void changePassword(ChangePasswordDTO changePass) {
 		User user = findOneById(changePass.getIdentifier());
-		
-		if(user.getPassword() == changePass.getOldPassword()+"encriptado")
+		System.out.println(user.getPassword());
+		System.out.println(changePass.getOldPassword()+"encriptado");
+		System.out.println(user.getPassword().equals(changePass.getOldPassword()+"encriptado"));
+		if(user.getPassword().equals(changePass.getOldPassword()+"encriptado"))
 			user.setPassword(changePass.getNewPassword()+"encriptado");
 	}
 

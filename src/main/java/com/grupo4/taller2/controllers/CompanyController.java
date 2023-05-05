@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +37,26 @@ public class CompanyController {
 		
 		return new ResponseEntity<>(usersFound, HttpStatus.OK);
 	}
+	
+	@GetMapping("/user/{id}")
+	public ResponseEntity<?> findUserById(@PathVariable String id){
+		
+		/*if(validations.hasErrors()) {
+			System.out.println("validaciones");
+			String msg =validations.getAllErrors().get(0).getDefaultMessage();
+			System.out.println(msg);
+			return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
+		}*/
+		
+		User userFound = userService.findOneById(id);
+		if(userFound == null) {
+			System.out.println("Nulo");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		System.out.println("Correcto");
+		return new ResponseEntity<>(userFound, HttpStatus.OK);
+		}
 	
 	@PostMapping("/user")
 	public ResponseEntity<?> register(@Valid RegisterDTO userInfo, BindingResult validations){
@@ -75,6 +96,5 @@ public class CompanyController {
 		userService.toggleState(identifier);
     	
 		return new ResponseEntity<>(HttpStatus.OK);
-		
 	}
 }
