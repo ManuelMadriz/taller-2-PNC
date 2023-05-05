@@ -30,7 +30,7 @@ public class UserServiceImp implements UserService{
 		try {
 			users.add(new User("manu", "manuel@gmail.com", "Manuel Madriz", "admin", date.parse("04/05/2023"), true, "ola12345678encriptado"));
 			users.add(new User("moisacan", "moisa@gmail.com", "Mario Moisa", "user", date.parse("03/05/2023"), true, "ola12345678encriptado"));
-			users.add(new User("wilhs", "wil@gmail.com", "Wilmer Hernandez", "user", date.parse("03/05/2023"), true, "ola12345678encriptado"));
+			users.add(new User("wilhs", "wil@gmail.com", "Wilmer Hernandez", "user", date.parse("03/05/2023"), false, "ola12345678encriptado"));
 			users.add(new User("rodrick", "rodri@gmail.com", "Rodrigo Molina", "admin", date.parse("04/05/2023"), true, "ola12345678encriptado"));
 		}catch(ParseException e) {
 			e.printStackTrace();
@@ -41,7 +41,7 @@ public class UserServiceImp implements UserService{
 	public LoginResponseDTO login(LoginDTO login) {
 		User user = findOneById(login.getIdentifier());
 		
-		if(user.getPassword().equals(login.getPassword()+"encriptado"))
+		if(user.getPassword().equals(login.getPassword()+"encriptado") && user.getState())
 			return new LoginResponseDTO(
 					user.getUsername(),
 					user.getEmail(),
