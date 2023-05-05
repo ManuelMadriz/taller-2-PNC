@@ -41,7 +41,7 @@ public class UserServiceImp implements UserService{
 	public LoginResponseDTO login(LoginDTO login) {
 		User user = findOneById(login.getIdentifier());
 		
-		if(user.getPassword().equals(login.getPassword()))
+		if(user.getPassword().equals(login.getPassword()+"encriptado"))
 			return new LoginResponseDTO(
 					user.getUsername(),
 					user.getEmail(),

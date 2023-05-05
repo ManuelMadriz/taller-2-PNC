@@ -23,14 +23,14 @@ import jakarta.validation.Valid;
 
 
 @RestController()
-@RequestMapping("/company")
+@RequestMapping("/company/user")
 @CrossOrigin("*")
 public class CompanyController {
 	
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/user/all")
+	@GetMapping("/all")
 	public ResponseEntity<?> findAll(){
 		
 		List<User> usersFound = userService.findAll();
@@ -38,7 +38,7 @@ public class CompanyController {
 		return new ResponseEntity<>(usersFound, HttpStatus.OK);
 	}
 	
-	@GetMapping("/user/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> findUserById(@PathVariable String id){
 		
 		/*if(validations.hasErrors()) {
@@ -58,7 +58,7 @@ public class CompanyController {
 		return new ResponseEntity<>(userFound, HttpStatus.OK);
 		}
 	
-	@PostMapping("/user")
+	@PostMapping("/")
 	public ResponseEntity<?> register(@Valid RegisterDTO userInfo, BindingResult validations){
 		if(validations.hasErrors()) {
 			//String msg =validations.getAllErrors().get(0).getDefaultMessage();
@@ -72,7 +72,7 @@ public class CompanyController {
 		
 	}
 	
-	@PatchMapping("/user/change-password")
+	@PatchMapping("/change-password")
 	public ResponseEntity<?> changePasssword(@Valid ChangePasswordDTO passInfo, BindingResult validations){
 		if(validations.hasErrors()) {
 			//String msg =validations.getAllErrors().get(0).getDefaultMessage();
@@ -86,7 +86,7 @@ public class CompanyController {
 		
 	}
 	
-	@PatchMapping("/user/toggle-active")
+	@PatchMapping("/toggle-active")
 	public ResponseEntity<?> toggleActive(String identifier){
 		
 		if(identifier == null) {
