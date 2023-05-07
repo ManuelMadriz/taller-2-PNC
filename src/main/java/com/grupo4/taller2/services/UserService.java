@@ -11,6 +11,7 @@ public interface UserService {
 	LoginResponseDTO login(LoginDTO log);
 	void register(RegisterDTO reg);
 	List<User> findAll();
+	Boolean userExists(String identifier);
 	User findOneById(String identifier);
 	void toggleState(String identifier);
 	void changePassword(ChangePasswordDTO changePass);

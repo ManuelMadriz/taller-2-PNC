@@ -64,10 +64,17 @@ public class CompanyController {
 			return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 		}
 		
-		userService.register(userInfo);
-    	
-		return new ResponseEntity<>(HttpStatus.OK);
+		Boolean userExists = userService.userExists(userInfo.getEmail());
 		
+		if(userExists == false) {
+			userExists = userService.userExists(userInfo.getUsername());
+			
+			if(userExists == false) {
+				userService.register(userInfo);
+				return new ResponseEntity<>(HttpStatus.OK);}
+		}
+			
+		return new ResponseEntity<>(handler.createErrors("identifier", "User already exists"), HttpStatus.CONFLICT);
 	}
 	
 	@PatchMapping("/change-password")
@@ -76,6 +83,11 @@ public class CompanyController {
 			Map<String, ErrorsDTO> errors = handler.mapErrors(validations.getFieldErrors());
 			return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 		}
+		
+		Boolean userExists = userService.userExists(passInfo.getIdentifier());
+		
+		if(userExists == false) {
+			return new ResponseEntity<>(handler.createErrors("identifier", "User does not exists"), HttpStatus.BAD_REQUEST);}
 		
 		userService.changePassword(passInfo);
     	
@@ -89,6 +101,11 @@ public class CompanyController {
 		if(identifier == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		
+		Boolean userExists = userService.userExists(identifier);
+		
+		if(userExists == false) {
+			return new ResponseEntity<>(handler.createErrors("identifier", "User does not exists"),HttpStatus.BAD_REQUEST);}
 		
 		userService.toggleState(identifier);
     	

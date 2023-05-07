@@ -74,6 +74,19 @@ public class UserServiceImp implements UserService{
 	}
 
 	@Override
+	public Boolean userExists(String identifier) {
+		User user =  users.stream()
+				.filter(u-> (u.getUsername().equals(identifier) || u.getEmail().equals(identifier)))
+				.findAny()
+				.orElse(null);
+		
+		if(user == null)
+			return false;
+		else
+			return true;
+	}
+
+	@Override
 	public User findOneById(String identifier) {
 		return users.stream()
 				.filter(u-> (u.getUsername().equals(identifier) || u.getEmail().equals(identifier)))

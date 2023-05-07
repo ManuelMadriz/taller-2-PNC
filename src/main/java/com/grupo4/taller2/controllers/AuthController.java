@@ -37,6 +37,11 @@ public class AuthController {
 			Map<String, ErrorsDTO> errors = handler.mapErrors(validations.getFieldErrors());
 			return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 		}
+
+		Boolean userExists = userService.userExists(userInfo.getIdentifier());
+		
+		if(userExists == false) {
+			return new ResponseEntity<>(handler.createErrors("identifier", "User does not exists"), HttpStatus.BAD_REQUEST);}
 		
 		LoginResponseDTO res = userService.login(userInfo);
     	

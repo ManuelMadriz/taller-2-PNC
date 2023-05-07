@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.FieldError;
 
 import com.grupo4.taller2.models.dtos.ErrorsDTO;
+import com.grupo4.taller2.models.dtos.NewErrorsDTO;
 
 
 @Component
@@ -29,5 +30,12 @@ public class ErrorHandlers {
     		});
     	
     	return errorsMap; 
+	}
+	
+	public NewErrorsDTO createErrors(String field, String msg) {
+    	Map<String, ErrorsDTO> errorsMap = new HashMap<>();
+    	
+    	return new NewErrorsDTO(field, msg);
+    	
 	}
 }
